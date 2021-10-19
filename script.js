@@ -1,39 +1,45 @@
+const myForm = document.getElementById("myForm");
+const csvFile = document.getElementById("csvFile");
 
+function csvToArray(str, delimiter = ",") {
 
+    // slice from start of text to the first \n index
+    // use split to create an array from string by delimiter
+    const headers = str.slice(0, str.indexOf("\n")).split(delimiter);
 
-//Equation: E' = H * (3.978E - 30f^3 - 1.811E - 19f^2 + 1.288E - 9f + 36.66) - (2.004E - 30f^3 - 1.278E - 19f^2 + 2.633E - 9f - 25.29)
+    // slice from \n index + 1 to the end of the text
+    // use split to create an array of each csv value row
+    const rows = str.slice(str.indexOf("\n") + 1).split("\n");
 
-//With respect to E': H = E' / ((3.978E - 30f^3 - 1.811E - 19f^2 + 1.288E - 9f + 36.66) - (2.004E - 30f^3 - 1.278E - 19f^2 + 2.633E - 9f - 25.29))
+    // Map the rows
+    // split values from each row into an array
+    // use headers.reduce to create an object
+    // object properties derived from headers:values
+    // the object passed as an element of the array
+    const arr = rows.map(function (row) {
+    const values = row.split(delimiter);
+    const el = headers.reduce(function (object, header, index) {
+        object[header] = values[index];
+        return object;
+    }, {});
+    return el;
+    });
 
+    // return the array
+    return arr;
+}
 
+myForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const input = csvFile.files[0];
+    const reader = new FileReader();
 
-//need to find a way to import and parse data automatically.
-let data = [{freq: 1000000.0000, ePrime: 9.999000e+003, eDblPrime: 9.999000e+003},
-    {freq: 200990000.0000, ePrime: -1.000000e+006, eDblPrime: -1.000000e+006},
-    {freq: 400980000.0000, ePrime: -1.000000e+006, eDblPrime: -1.000000e+006},
-    {freq: 600970000.0000, ePrime: -1.000000e+006, eDblPrime: -1.000000e+006},
-    {freq: 800960000.0000, ePrime: -1.000000e+006, eDblPrime: -1.000000e+006},
-    {freq: 1000950000.0000, ePrime: -1.000000e+006, eDblPrime: -1.000000e+006},
-    {freq: 1200940000.0000, ePrime: -1.000000e+006, eDblPrime: -1.000000e+006},
-    {freq: 1400930000.0000, ePrime: -1.000000e+006, eDblPrime:-1.000000e+006},
-    {freq: 1600920000.0000, ePrime: -1.000000e+006, eDblPrime: -1.000000e+006},
-    {freq: 1800910000.0000, ePrime: -1.000000e+006, eDblPrime: -1.000000e+006},
-    {freq: 2000900000.0000, ePrime: -1.000000e+006, eDblPrime: -1.000000e+006},
-    {freq: 2200890000.0000, ePrime: -1.000000e+006, eDblPrime: -1.000000e+006},
-    {freq: 2400880000.0000, ePrime: -1.000000e+006, eDblPrime: -1.000000e+006},
-    {freq: 2600870000.0000, ePrime: -1.000000e+006, eDblPrime: -1.000000e+006}]
-   
-let processedData = [];
-
-function hydration(ePrime, freq){
-    let percentHydration = (ePrime)/((39.78 - (30 * (freq)^3) - 18.11 - (19 * freq^2) + 12.88 - (9 * freq) + 36.66) - (20.04 - (30 * freq^3) - 12.78 - (19 * freq^2) + 26.33 - (9 * freq) - 25.29))
-
-    document.getElementById('display').textContent = percentHydration;
-    return percentHydration;
+    reader.onload = function (e) {
+    const text = e.target.result;
+    const data = csvToArray(text);
+    document.write(JSON.stringify(data));
+    };
     
-}
-
-for (let i = 0; i < data.length; i++){
-    processedData.push(hydration(data[i].ePrime, data[i].freq))
-}
-
+    // reader.readAsText(input);
+    return input
+});
