@@ -1,7 +1,7 @@
 let myForm = document.getElementById("myForm");
 let csvFile = document.getElementById("csvFile");
 let arr;
-function csvToArray(str, delimiter = ",") {
+function csvToArray(str, delimiter = ',') {
 
     // slice from start of text to the first \n index
     // use split to create an array from string by delimiter
@@ -17,12 +17,12 @@ function csvToArray(str, delimiter = ",") {
     // object properties derived from headers:values
     // the object passed as an element of the array
     let arr = rows.map(function (row) {
-    let values = row.split(delimiter);
-    let el = headers.reduce(function (object, header, index) {
-        object[header] = values[index];
-        return object;
-    }, {});
-    return el;
+        let values = row.split(delimiter);
+        let el = headers.reduce(function (object, header, index) {
+            object[header] = values[index];
+            return object;
+        }, {});
+        return el;
     });
 
     // return the array
