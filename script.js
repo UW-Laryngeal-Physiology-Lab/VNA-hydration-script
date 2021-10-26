@@ -19,8 +19,21 @@ fileInput.addEventListener('change', function(e){
 //csv parser
 
 function csvToArray(input){
-    let rows = input.split('\n')
+    let headers = input.slice(0, input.indexOf('\n')).split(',')
+    console.log(headers)
+
+    let rows = input.slice(input.indexOf('\n') + 1).split('\n')
     console.log(rows)
-    let minusSlashR = rows.map(element => element.replace('\r', ''))
-    console.log(minusSlashR)
+
+    let array = rows.map(function(row){
+        let values = row.split(',')
+        let consolidated = headers.reduce(function(object, header, index){
+            object[header] = values[index]
+            return object
+        },{})
+        console.log(consolidated)
+        return consolidated
+    })
+    return array;
 }
+
