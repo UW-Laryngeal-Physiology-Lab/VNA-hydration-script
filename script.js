@@ -7,8 +7,11 @@ fileInput.addEventListener('change', function(e){
         //sanity check
         console.log(reader.result)
 
-        csvToArray(reader.result) 
-        return reader.result
+        let outputArray = csvToArray(reader.result)
+        let formattedArray = formatArray(outputArray)
+        console.log(outputArray)
+        return formattedArray;
+        
     }
     reader.onerror = function(){
         console.log('ERROR')
@@ -16,14 +19,14 @@ fileInput.addEventListener('change', function(e){
     reader.readAsText(fileInput.files[0])
 }, false)
 
-//csv parser
+//csv parser and formatter
 
 function csvToArray(input){
     let headers = input.slice(0, input.indexOf('\n')).split(',')
-    console.log(headers)
+    console.log('Headers: '+ headers)
 
     let rows = input.slice(input.indexOf('\n') + 1).split('\n')
-    console.log(rows)
+    console.log('Rows: ' + rows)
 
     let array = rows.map(function(row){
         let values = row.split(',')
@@ -31,9 +34,17 @@ function csvToArray(input){
             object[header] = values[index]
             return object
         },{})
-        console.log(consolidated)
         return consolidated
     })
     return array;
+}
+
+function formatArray(array){
+    for (let i = 0; i < array.length; i++){
+        for (const [key, value] of Object.entries(array[i])){
+            console.log(`${key}: ${value}`)
+        }
+        
+    }
 }
 
