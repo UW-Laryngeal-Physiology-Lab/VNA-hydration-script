@@ -9,7 +9,7 @@ fileInput.addEventListener('change', function(e){
 
         let outputArray = csvToArray(reader.result)
         let formattedArray = formatArray(outputArray)
-        console.log(outputArray)
+        console.log(formattedArray)
         return formattedArray;
         
     }
@@ -39,12 +39,25 @@ function csvToArray(input){
     return array;
 }
 
+
+
+//This function needs work. Need to figure out how to set properties of objects.
+
 function formatArray(array){
+    let newArray = []
     for (let i = 0; i < array.length; i++){
         for (const [key, value] of Object.entries(array[i])){
-            console.log(`${key}: ${value}`)
+            if (typeof(key) !== String){
+                let stringKey = key.toString()
+                newArray.push(stringKey)
+            }
+            if (typeof(value) !== Number){
+                let numValue = Number(value)
+                array[i].value = numValue
+            }
         }
         
     }
+    return newArray;
 }
 
