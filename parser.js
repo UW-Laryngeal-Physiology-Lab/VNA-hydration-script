@@ -10,7 +10,7 @@ fileInput.addEventListener('change', function(e){
         let outputArray = csvToArray(reader.result)
         let formattedArray = formatArray(outputArray)
         console.log(formattedArray)
-        return formattedArray;
+        return formattedArray; //Formatted array is here
         
     }
     reader.onerror = function(){
@@ -22,10 +22,12 @@ fileInput.addEventListener('change', function(e){
 //csv parser and formatter
 
 function csvToArray(input){
-    let headers = input.slice(0, input.indexOf('\n')).split(',')
+    let noSlashR = input.replace('\r', '')
+
+    let headers = noSlashR.slice(0, noSlashR.indexOf('\n')).split(',')
     console.log('Headers: '+ headers)
 
-    let rows = input.slice(input.indexOf('\n') + 1).split('\n')
+    let rows = noSlashR.slice(noSlashR.indexOf('\n') + 1).split('\n')
     console.log('Rows: ' + rows)
 
     let array = rows.map(function(row){
@@ -40,24 +42,15 @@ function csvToArray(input){
 }
 
 
-
-//This function needs work. Need to figure out how to set properties of objects.
-
 function formatArray(array){
-    let newArray = []
+    let outputArray = [];
     for (let i = 0; i < array.length; i++){
-        for (const [key, value] of Object.entries(array[i])){
-            if (typeof(key) !== String){
-                let stringKey = key.toString()
-                newArray.push(stringKey)
-            }
-            if (typeof(value) !== Number){
-                let numValue = Number(value)
-                array[i].value = numValue
-            }
-        }
-        
+        let newObject = {}
+        newObject.frequency = Number(array[i].frequency)
+        newObject.ePrime = Number(array[i].ePrime)
+        newObject.eDblPrime = Number(array[i].eDblPrime) //Logging as NaN for some reason
+        outputArray.push(newObject);
     }
-    return newArray;
+    return outputArray;
 }
 
