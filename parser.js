@@ -19,15 +19,21 @@ fileInput.addEventListener('change', function(e){
     reader.readAsText(fileInput.files[0])
 }, false)
 
+//.csv files are encoded slightly differently on mac vs. Windows. Therefore, we have to have a function that will get the client machine's OS. The csvToArray and formatArray functions will run slightly differently depending on 
+
+
+
+
+
 //csv parser and formatter
 
 function csvToArray(input){
-    let noSlashR = input.replace('\r', '')
+    // let noSlashR = input.replace('\r', '')
 
-    let headers = noSlashR.slice(0, noSlashR.indexOf('\n')).split(',')
+    let headers = input.slice(0, input.indexOf('\n')).split(',')
     console.log('Headers: '+ headers)
 
-    let rows = noSlashR.slice(noSlashR.indexOf('\n') + 1).split('\n')
+    let rows = input.slice(input.indexOf('\n') + 1).split('\n')
     console.log('Rows: ' + rows)
 
     let array = rows.map(function(row){
