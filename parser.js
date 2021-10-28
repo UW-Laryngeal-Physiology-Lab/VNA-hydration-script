@@ -67,7 +67,7 @@ function formatArray(array){
         let newObject = {}
         newObject.frequency = Number(array[i].frequency)
         newObject.ePrime = Number(array[i].ePrime)
-        newObject.eDblPrime = Number(array[i].eDblPrime) //Logging as NaN for some reason
+        newObject.eDblPrime = Number(array[i].eDblPrime) //Need to replace \r, otherwise it'll log as NaN.
         outputArray.push(newObject);
     }
     return outputArray;
