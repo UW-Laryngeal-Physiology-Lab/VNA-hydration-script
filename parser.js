@@ -24,7 +24,7 @@ fileInput.addEventListener('change', function(e){
 
 function operatingSystemDetector(input){
     //I want this to be able to detect '\r' in the array string that it is passed (i think .match()? or something). I think it will descriminate against the Mac machine. It then can return a true boolean and be used to modulate the csvToArray function to format the array for Windows machines. Windows = '\r\n', Mac = '\n'(2018)
-    const returnNewLine = '\r\n' //This is wrong. Need to find better documentation. Logs "Windows machine" on my Mac.
+    const returnNewLine = '\r\n' //This is wrong. Need to find better documentation. Logs "Windows machine" on Mac.
     
     if (input.includes(returnNewLine)){
         console.log('Windows machine')
