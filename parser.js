@@ -4,14 +4,13 @@ let fileInput = document.getElementById('csvFile')
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-fileInput.addEventListener('change', function(e){
+fileInput.addEventListener('change', function(){
     console.log(fileInput.files) //sanity check
     const reader = new FileReader()
     reader.onload = function(){
         console.log(reader.result)//sanity check
         let outputArray = csvToArray(reader.result)
         let formattedArray = formatArray(outputArray)
-        console.log(formattedArray)//sanity check
         let calculationArray = calculateHydration(formattedArray)
         let averageHydration = findAverage(calculationArray)
         updatePage(averageHydration);
@@ -24,27 +23,11 @@ fileInput.addEventListener('change', function(e){
     reader.readAsText(fileInput.files[0])
 }, false)
 
-//.csv files are encoded slightly differently on Mac vs. Windows. Therefore, we have to have a function that will get the client machine's OS. The csvToArray and formatArray functions will run slightly differently depending on the OS. For now, it is going to be compatible with Windows and Mac OS.
-
-function operatingSystemDetector(input){//Function is neither functioning nor invoked currently.
-    //I want this to be able to detect '\r' in the array string that it is passed (i think .match()? or something). I think it will descriminate against the Mac machine. It then can return a true boolean and be used to modulate the csvToArray function to format the array for Windows machines. Windows = '\r\n', Mac = '\n'(2018)
-    const returnNewLine = '\r\n' //This is wrong. Need to find better documentation. Logs "Windows machine" on Mac.
-    
-    if (input.includes(returnNewLine)){
-        console.log('Windows machine')
-        return true
-    }else{
-        console.log('Mac machine')
-        return false
-    }
-}
-
-//csv parser and formatter
+//csv parser
 /////////////////////////
 /////////////////////////
 
 function csvToArray(input){
-    operatingSystemDetector(input)
     let noSlashR = input.replace('\r', '')
     let headers = noSlashR.slice(0, noSlashR.indexOf('\n')).split(',')
     console.log('Headers: '+ headers)//sanity check
@@ -61,6 +44,9 @@ function csvToArray(input){
     return array;
 }
 
+//csv formatter
+///////////////
+///////////////
 
 function formatArray(array){
     let outputArray = [];
@@ -110,9 +96,6 @@ function findAverage(array){
     console.log('Average hydration: '+ average)
     return average;
 }
-
-
-
 
 //Function to update the page
 /////////////////////////////
