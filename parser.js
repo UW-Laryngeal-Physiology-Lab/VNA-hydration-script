@@ -82,7 +82,7 @@ let osmotic = true;
 function calculateHydration(formattedArray){
     if (osmotic === true){
         formattedArray.forEach(element => {
-            element.hydration = ((element.ePrime) + ((2.004e-30)*((element.frequency)**3)) - ((1.278e-19)*((element.frequency)**2)) + ((1.288e-9)*((element.frequency))) - 25.29) / (((3.978e-30) * ((element.frequency)**3)) - ((1.811e-19)*((element.frequency)**2)) + ((1.288e-9)*(element.frequency)) + 36.66);
+            element.hydration = ((element.ePrime) + ((2.004e-30)*((element.frequency)**3)) - ((1.278e-19)*((element.frequency)**2)) + ((2.633e-9)*((element.frequency))) - 25.29) / (((3.978e-30) * ((element.frequency)**3)) - ((1.811e-19)*((element.frequency)**2)) + ((1.288e-9)*(element.frequency)) + 36.66);
         })
     } else {
         window.alert('This part of the logic tree has not been factored yet. Please refresh and set "osmotic" to true.')
