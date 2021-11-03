@@ -13,8 +13,9 @@ fileInput.addEventListener('change', function(e){
         let formattedArray = formatArray(outputArray)
         console.log(formattedArray)//sanity check
         let calculationArray = calculateHydration(formattedArray)
-        updatePage(calculationArray);
-        return calculationArray;   
+        let averageHydration = findAverage(calculationArray)
+        updatePage(averageHydration);
+        return averageHydration;   
     }
     reader.onerror = function(){
         console.log('ERROR')
@@ -92,11 +93,32 @@ function calculateHydration(formattedArray){
     return formattedArray
 }
 
+//Function to find the average hydration
+////////////////////////////////////////
+////////////////////////////////////////
+
+function findAverage(array){
+    let newArray = [];
+    let sum = 0;
+    array.forEach(element => {
+        newArray.push(element.hydration)
+    })
+    for (let i = 0; i < newArray.length; i++){
+        sum += newArray[i]
+    }
+    let average = (sum / newArray.length)
+    console.log('Average hydration: '+ average)
+    return average;
+}
+
+
+
+
 //Function to update the page
 /////////////////////////////
 /////////////////////////////
 
-function updatePage(calculationArray){
+function updatePage(averageHydration){
     let display = document.getElementById('display')
-    display.textContent = `Hydration at 1GHz = ${calculationArray[0].hydration * 100}%`
+    display.textContent = `The average hydration is ${averageHydration * 100}%`
 }
