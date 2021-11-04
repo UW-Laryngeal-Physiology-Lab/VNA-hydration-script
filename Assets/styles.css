@@ -11,3 +11,7 @@ body{
     text-align: center;
     align-content: center;
 }
+
+body{
+    display: block;
+}
