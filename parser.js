@@ -1,3 +1,5 @@
+const { Chart } = require("chart.js")
+
 let fileInput = document.getElementById('csvFile')
 
 //Main event listener. This handles most of the function of the site. 
@@ -105,3 +107,34 @@ function updatePage(averageHydration){
     let display = document.getElementById('display')
     display.textContent = `The average hydration is ${averageHydration * 100}%`
 }
+
+//Function to build graph
+//.......................
+function buildGraph(array){
+    let ctx = document.getElementById('my-chart').getContext('2d');
+    const labels = array.frequency;
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Passed Array',
+            data: array.forEach(element => {element.hydration}),
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+        }]
+    }
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    }
+    let chart = new Chart(ctx, config)
+
+}
+
