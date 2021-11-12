@@ -16,6 +16,7 @@ fileInput.addEventListener('change', function(){
         let calculationArray = calculateHydration(formattedArray)
         let averageHydration = findAverage(calculationArray)
         updatePage(averageHydration);
+        //build graph here
         return averageHydration;   
     }
     reader.onerror = function(){
@@ -112,7 +113,7 @@ function updatePage(averageHydration){
 //.......................
 function buildGraph(array){
     let ctx = document.getElementById('my-chart').getContext('2d');
-    const labels = array.frequency;
+    const labels = array.forEach(element => {element.frequency});
     const data = {
         labels: labels,
         datasets: [{
@@ -135,6 +136,8 @@ function buildGraph(array){
         },
     }
     let chart = new Chart(ctx, config)
+    let canvas = document.getElementById('my-chart')
+    canvas.drawImage(chart, 0, 0)
 
 }
 
